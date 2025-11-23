@@ -28,7 +28,25 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		switch (LOWORD(wParam))
 		{
-		case IDOK:
+		case IDOK: 
+		{
+			CONST INT SIZE = 256;
+			CHAR sz_buffer[SIZE]{};
+			CHAR sz_message[SIZE]{};
+			HWND hParent = GetParent(hwnd);
+			HWND hList = GetDlgItem(hParent, IDC_LIST1);
+			INT i = SendMessage(hList, CB_GETCURSEL, 0, 0);
+			if( i != CB_ERR)
+			{
+				SendMessage(hList, CB_GETLBTEXT, i, (LPARAM)sz_buffer);
+				wsprintf(sz_message, "Вы выбрали элемент %d со значением %s", i, sz_buffer);
+				MessageBox(hwnd, sz_message, "INFO", MB_OK | MB_ICONINFORMATION);
+			}
+			else 
+			{
+				MessageBox(hwnd, "Вы ничего не выбрали", "INFO", MB_OK | MB_ICONINFORMATION);
+			}
+		}
 			break;
 		case IDC_BUTTON_ADD:
 			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, (DLGPROC)DlgProcAdd, 0);
@@ -63,9 +81,6 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
 			HWND hParent = GetParent(hwnd);
 			HWND hList = GetDlgItem(hParent, IDC_LIST1);
-			//SendMessage(hList, LB_GETTEXT, 0, (LPARAM)sz_buffer);
-			//MessageBox(hwnd, sz_buffer, "Warning", MB_OK | MB_ICONWARNING);
-
 			if (SendMessage(hList, LB_FINDSTRINGEXACT, 0, (LPARAM)sz_buffer) == LB_ERR) 
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
 			else
