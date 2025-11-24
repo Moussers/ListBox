@@ -34,12 +34,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			CHAR sz_buffer[SIZE]{};
 			CHAR sz_message[SIZE]{};
 			HWND hParent = GetParent(hwnd);
-			HWND hList = GetDlgItem(hParent, IDC_LIST1);
+			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 			INT i = SendMessage(hList, LB_GETCURSEL, 0, 0);
 			if( i != CB_ERR)
 			{
 				SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
-				wsprintf(sz_message, "Вы выбрали элемент %d со значением %s", i, sz_buffer);
+				wsprintf(sz_message, "Вы выбрали элемент %i со значением %s", i+1, sz_buffer);
 				MessageBox(hwnd, sz_message, "INFO", MB_OK | MB_ICONINFORMATION);
 			}
 			else 
@@ -52,7 +52,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, (DLGPROC)DlgProcAdd, 0);
 			break;
 		case IDC_BUTTON_DELETE:
-			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DELETE), hwnd, (DLGPROC)DlgProcAdd, 0);
+			//DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_DELETE), hwnd, (DLGPROC)DlgProcAdd, 0);
+		{
+			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+			INT i = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			SendMessage(hList, LB_DELETESTRING, i, 0);
+		}
 			break;
 		case IDCANCEL:
 			EndDialog(hwnd, 0);
