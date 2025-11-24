@@ -68,20 +68,20 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 	}
 	break;
-	case WM_KEYDOWN:
-		switch (LOWORD(wParam)) 
-		{
-		case VK_SPACE: 
-		{
-			MessageBox(hwnd, "Enter pressed", "Info", MB_OK | MB_ICONINFORMATION);
-			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
-			if (GetFocus() == hList) 
-			{
-				DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, (DLGPROC)DlgProcEdit, 0);
-			}
-		}
-		break;
-		}
+	//case WM_KEYUP:
+	//	switch (LOWORD(wParam)) 
+	//	{
+	//	case VK_SPACE: 
+	//	{
+	//		MessageBox(hwnd, "Enter pressed", "Info", MB_OK | MB_ICONINFORMATION);
+	//		HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+	//		if (GetFocus() == hList) 
+	//		{
+	//			DialogBoxParam(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG_ADD), hwnd, (DLGPROC)DlgProcEdit, 0);
+	//		}
+	//	}
+	//	break;
+	//	}
 	case WM_CLOSE:
 		EndDialog(hwnd, 0);
 	}
@@ -150,17 +150,17 @@ BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 		case IDOK: 
 		{
-			//HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
-			//SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
-			//HWND hParent = GetParent(hwnd);
-			//HWND hList = GetDlgItem(hParent, IDC_LIST1);
-			//INT i = SendMessage(hList, LB_GETCURSEL, 0, 0);
-			//SendMessage(hList, LB_DELETESTRING, i, NULL);
-			//if (SendMessage(hList, LB_FINDSTRINGEXACT, 0, (LPARAM)sz_buffer) == LB_ERR) 
-			//{
-			//	SendMessage(hList, LB_DELETESTRING, i, NULL);
-			//	SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
-			//}
+			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
+			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
+			HWND hParent = GetParent(hwnd);
+			HWND hList = GetDlgItem(hParent, IDC_LIST1);
+			INT i = SendMessage(hList, LB_GETCURSEL, 0, 0);
+			SendMessage(hList, LB_DELETESTRING, i, NULL);
+			if (SendMessage(hList, LB_FINDSTRINGEXACT, 0, (LPARAM)sz_buffer) == LB_ERR) 
+			{
+				SendMessage(hList, LB_DELETESTRING, i, NULL);
+				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
+			}
 		}
 			break;
 		case IDCANCEL:
