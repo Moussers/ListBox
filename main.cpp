@@ -49,7 +49,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else 
 			{
-				MessageBox(hwnd, "Вы ничего не выбрали", "INFO", MB_OK | MB_ICONINFORMATION);
+				MessageBox(hwnd, "Вы ничего не выбрали", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 		}
 			break;
@@ -60,7 +60,15 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 			INT i = SendMessage(hList, LB_GETCURSEL, 0, 0);
-			SendMessage(hList, LB_DELETESTRING, i, 0);
+			if (i != CB_ERR) 
+			{
+				SendMessage(hList, LB_DELETESTRING, i, 0);
+			}
+			else 
+			{
+				MessageBox(hwnd, "Вы не ничего не выбрали для удаления", "WARNING", MB_OK | MB_ICONWARNING);
+			}
+			
 		}
 			break;
 		case IDCANCEL:
