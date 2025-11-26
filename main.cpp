@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #include "resource.h"
 
@@ -6,6 +7,7 @@ CONST CHAR* g_sz_VALUES[] = { "This", "is", "my", "first", "List", "Box" };
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+VOID SaveList(HWND hwnd, CONST CHAR filename[]);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -44,12 +46,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if( i != CB_ERR)
 			{
 				SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
-				wsprintf(sz_message, "Вы выбрали элемент %i со значением %s", i+1, sz_buffer);
+				wsprintf(sz_message, "Вы выбрали эелемент %i со значением %s", i+1, sz_buffer);
 				MessageBox(hwnd, sz_message, "INFO", MB_OK | MB_ICONINFORMATION);
 			}
 			else 
 			{
-				MessageBox(hwnd, "Вы ничего не выбрали", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Вы не выбрали ни какой элемент", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 		}
 			break;
@@ -66,12 +68,13 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else 
 			{
-				MessageBox(hwnd, "Вы не ничего не выбрали для удаления", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Вы ничего не выбрали", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 			
 		}
 			break;
 		case IDCANCEL:
+			SaveList(hwnd, "list.txt");
 			EndDialog(hwnd, 0);
 		}
 	}
@@ -81,7 +84,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//	{
 	//	case VK_SPACE: 
 	//	{
-	//		MessageBox(hwnd, "Enter pressed", "Info", MB_OK | MB_ICONINFORMATION);
+	//		MessageBox(hwnd, "Enter нажата", "Info", MB_OK | MB_ICONINFORMATION);
 	//		HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 	//		if (GetFocus() == hList) 
 	//		{
@@ -91,6 +94,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//	break;
 	//	}
 	case WM_CLOSE:
+		SaveList(hwnd, "list.txt");
 		EndDialog(hwnd, 0);
 	}
 	return FALSE;
@@ -106,7 +110,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam)) {
 		case IDOK:
 		{
-			CONST INT SIZE = 256;
+			CONST INT SIZE = 32678;
 			CHAR sz_buffer[SIZE] = {};
 			HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 			SendMessage(hEdit, WM_GETTEXT, SIZE, (LPARAM)sz_buffer);
@@ -116,7 +120,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
 			else
 			{
-				MessageBox(hwnd, "Такой элемент уже существует", "Warning", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Вы ничего не выбрали", "Warning", MB_OK | MB_ICONWARNING);
 				break;
 			}
 		}
@@ -180,4 +184,30 @@ BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		EndDialog(hwnd, 0);
 	}
 	return FALSE;
+}
+
+VOID SaveList(HWND hwnd, CONST CHAR filename[]) 
+{
+	CONST INT SIZE = 32678;
+	CHAR sz_buffer[SIZE] = {};
+	HWND hList = GetDlgItem(hwnd, IDC_LIST1);
+	INT n = SendMessage(hList, LB_GETCOUNT, 0, 0);
+	for (int i = 0; i < n; i++) 
+	{
+		CHAR sz_item[256] = {};
+		SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_item);
+		lstrcat(sz_buffer, sz_item);
+		lstrcat(sz_buffer, "\n");
+	}
+	HANDLE hFile = CreateFile(
+		filename, 
+		GENERIC_WRITE, 
+		0, 
+		NULL, 
+		CREATE_ALWAYS, 
+		FILE_ATTRIBUTE_NORMAL, 
+		NULL
+	);
+	DWORD dwBytesWritten = 0;
+	WriteFile(hFile, sz_buffer, strlen(sz_buffer) + 1, &dwBytesWritten, NULL);
 }
