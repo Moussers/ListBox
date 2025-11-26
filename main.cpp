@@ -44,12 +44,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if( i != CB_ERR)
 			{
 				SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
-				wsprintf(sz_message, "┬√ т√сЁрыш ¤ыхьхэЄ %i ёю чэрўхэшхь %s", i+1, sz_buffer);
+				wsprintf(sz_message, "Вы выбрали элемент %i со значением %s", i+1, sz_buffer);
 				MessageBox(hwnd, sz_message, "INFO", MB_OK | MB_ICONINFORMATION);
 			}
 			else 
 			{
-				MessageBox(hwnd, "┬√ эшўхую эх т√сЁрыш", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Вы ничего не выбрали", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 		}
 			break;
@@ -66,7 +66,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else 
 			{
-				MessageBox(hwnd, "┬√ эх эшўхую эх т√сЁрыш фы  єфрыхэш ", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Вы не ничего не выбрали для удаления", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 			
 		}
@@ -116,7 +116,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
 			else
 			{
-				MessageBox(hwnd, "╥ръющ ¤ыхьхэЄ єцх ёє∙хёЄтєхЄ", "Warning", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "Такой элемент уже существует", "Warning", MB_OK | MB_ICONWARNING);
 				break;
 			}
 		}
@@ -141,7 +141,7 @@ BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG: 
 	{
-		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"╚чьхэшЄ№");
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"Изменить");
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 		HWND hParent = GetParent(hwnd);
 		HWND hList = GetDlgItem(hParent, IDC_LIST1);
