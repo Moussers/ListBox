@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+Ôªø#define _CRT_SECURE_NO_WARNINGS
 #include <Windows.h>
 #include "resource.h"
 
@@ -49,12 +49,12 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if( i != CB_ERR)
 			{
 				SendMessage(hList, LB_GETTEXT, i, (LPARAM)sz_buffer);
-				wsprintf(sz_message, "ÇÎ ¢Î°‡†´® Ì•´•¨•≠‚ %i ·Æ ß≠†Á•≠®•¨ %s", i+1, sz_buffer);
+				wsprintf(sz_message, "–≤—ã –≤—ã–±—Ä–∞–ª–∏ —ç–ª–µ–º–µ–Ω—Ç %i —Å–æ –∑–Ω–∞—á–µ–Ω–∏–µ–º %s", i+1, sz_buffer);
 				MessageBox(hwnd, sz_message, "INFO", MB_OK | MB_ICONINFORMATION);
 			}
 			else 
 			{
-				MessageBox(hwnd, "ÇÎ ≠• ¢Î°‡†´® ≠® ™†™Æ© Ì´•¨•≠‚", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "–í—ã –Ω–µ –≤—ã–±—Ä–∞–ª–∏ –Ω–∏—á–µ–≥–æ", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 		}
 			break;
@@ -71,7 +71,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			else 
 			{
-				MessageBox(hwnd, "ÇÎ ≠®Á•£Æ ≠• ¢Î°‡†´®", "WARNING", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "–í—ã –Ω–µ –≤—ã–±—Ä–∞–ª–∏ –Ω–∏—á–µ–≥–æ", "WARNING", MB_OK | MB_ICONWARNING);
 			}
 			
 		}
@@ -87,7 +87,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	//	{
 	//	case VK_SPACE: 
 	//	{
-	//		MessageBox(hwnd, "Enter ≠†¶†‚†", "Info", MB_OK | MB_ICONINFORMATION);
+	//		MessageBox(hwnd, "–ë—ã–ª –Ω–∞–∂–∞—Ç Enter", "Info", MB_OK | MB_ICONINFORMATION);
 	//		HWND hList = GetDlgItem(hwnd, IDC_LIST1);
 	//		if (GetFocus() == hList) 
 	//		{
@@ -123,7 +123,7 @@ BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)sz_buffer);
 			else
 			{
-				MessageBox(hwnd, "ÇÎ ≠®Á•£Æ ≠• ¢Î°‡†´®", "Warning", MB_OK | MB_ICONWARNING);
+				MessageBox(hwnd, "–í—ã –Ω–∏—á–µ–≥–æ –Ω–µ –≤—ã–±—Ä–∞–ª–∏", "Warning", MB_OK | MB_ICONWARNING);
 				break;
 			}
 		}
@@ -148,7 +148,7 @@ BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG: 
 	{
-		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"àß¨•≠®‚Ï");
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"‚Ç¨¬ß¬¨“ê¬≠–Å–≤–º");
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 		HWND hParent = GetParent(hwnd);
 		HWND hList = GetDlgItem(hParent, IDC_LIST1);
