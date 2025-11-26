@@ -22,11 +22,11 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_INITDIALOG:
-	{/*
+	{
 		HWND hListBox = GetDlgItem(hwnd, IDC_LIST1);
 		for (int i = 0; i < sizeof(g_sz_VALUES) / sizeof(g_sz_VALUES[0]); ++i) {
 			SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)g_sz_VALUES[i]);
-		}*/
+		}
 		LoadList(hwnd, g_sz_FILENAME);
 	}
 	break;
@@ -148,7 +148,7 @@ BOOL CALLBACK DlgProcEdit(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG: 
 	{
-		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"€§¬Ґ­Ёвм");
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)"Изменить");
 		HWND hEdit = GetDlgItem(hwnd, IDC_EDIT);
 		HWND hParent = GetParent(hwnd);
 		HWND hList = GetDlgItem(hParent, IDC_LIST1);
